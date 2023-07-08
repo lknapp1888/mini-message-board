@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  p For/Each loop
+  each n in messages
+    p= `${n.user} says: ${n.text}. Posted at ${n.added}`
+  form(action="/new" method='get')
+    button(type="submit") add new post
+

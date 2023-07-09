@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-let messages = require('./index').messages;
+const Message = require('../models/message')
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
@@ -8,13 +8,14 @@ router.get("/", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
-  messages.push({
-    text: req.body.text,
-    user: req.body.user,
-    added: new Date(),
-  });
-  console.log(messages)
+  messageCreate(req.body.text, req.body.user)
   res.redirect("/");
 });
+
+async function messageCreate(text, user) {
+  const message = new Message({ text, user });
+  await message.save();
+  console.log(`Added message: ${text}`);
+}
 
 module.exports = router;
